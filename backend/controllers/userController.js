@@ -19,6 +19,8 @@ export const registerUser = catchAsyncErrors(
           sendToken(user, 200, res);
      }
 );
+
+// Login
 export const loginUser = catchAsyncErrors(
      async (req, res, next) => {
           const { email, password } = req.body;
@@ -38,6 +40,7 @@ export const loginUser = catchAsyncErrors(
      }
 );
 
+// Logout
 export const logoutUser = catchAsyncErrors(
      async (req, res, next) => {
           res.cookie("token", null, {
@@ -51,6 +54,7 @@ export const logoutUser = catchAsyncErrors(
      }
 );
 
+// Forgot Password
 export const forgetPassword = catchAsyncErrors(
      async (req, res, next) => {
           const user = await userModel.findOne({ email: req.body.email });
@@ -59,7 +63,7 @@ export const forgetPassword = catchAsyncErrors(
           const resetToken = user.getResetPasswordToken();
           await user.save({ validateByforeSave: false });
           const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`;
-          const message = `Your reset password token is :- \n\n ${resetPasswordUrl} \n\n If you have not requested this email then, please ignore it.`;
+          const message = `Your reset password token is :- ${resetPasswordUrl} If you have not requested this email then, please ignore it.`;
 
           try {
                await sendEmail({
