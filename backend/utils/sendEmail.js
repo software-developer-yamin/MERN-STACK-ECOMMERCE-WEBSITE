@@ -6,6 +6,7 @@ const sendEmail = async (options) => {
           service: "gmail",
           secure: false,
           host: 'smtp.gmail.com',
+          port: 465,
           auth: {
                user:process.env.SMTP_MAIL,
                pass: process.env.SMTP_PASS,
@@ -16,7 +17,7 @@ const sendEmail = async (options) => {
           to: options.email,
           subject: options.subject,
           text: options.message,
-          html: `<p>Hello world? ${options.message}</p>`,
+          html: `<p>${options.message}</p>`,
      };
 
      await transporter.sendMail(mailOptions);
